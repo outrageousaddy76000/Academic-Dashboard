@@ -38,7 +38,7 @@ Welcome to the Academic Dashboard for Rajiv Gandhi Institute of Petroleum Techno
     ?>
     ```
 
-3. Create a MySQL database. The necessary tables will be auto-created upon running the application.
+3. Create a MySQL database. The necessary tables will be auto-created upon running the application except the users table so add that manually in the database with the authorised users.
 
 ### Database Tables
 
