@@ -2,6 +2,8 @@
 
 Welcome to the Academic Dashboard for Rajiv Gandhi Institute of Petroleum Technology (RGIPT). This dashboard provides comprehensive academic information for students and faculty members.
 
+Do look at the presentation to get a better idea about the project.
+
 ## Getting Started
 
 ### Prerequisites
