@@ -1,4 +1,4 @@
-# Academic Dashboard for RGIPT - Currently hosted at dashboard.adarshloves.me
+# Academic Dashboard for RGIPT - Currently hosted at https://dashboard.adarshloves.me
 
 Welcome to the Academic Dashboard for Rajiv Gandhi Institute of Petroleum Technology (RGIPT). This dashboard provides comprehensive academic information for students and faculty members.
 
