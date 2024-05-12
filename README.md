@@ -57,6 +57,7 @@ CREATE TABLE courses (
     year INT,
     elective BOOLEAN
 );
+```
 
 
 #### Users
