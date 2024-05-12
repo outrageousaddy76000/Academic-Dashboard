@@ -28,6 +28,33 @@ if ($mysqli->connect_errno) {
 
 // Function to populate table rows
 function populate_table($mysqli) {
+    //create table if not exist
+    $sql = "CREATE TABLE IF NOT EXISTS students (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        roll VARCHAR(10) NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        phone_number VARCHAR(10) NOT NULL,
+        spi_sem1 FLOAT(4,2) NOT NULL,
+        spi_sem2 FLOAT(4,2) NOT NULL,
+        spi_sem3 FLOAT(4,2) NOT NULL,
+        spi_sem4 FLOAT(4,2) NOT NULL,
+        spi_sem5 FLOAT(4,2) NOT NULL,
+        spi_sem6 FLOAT(4,2) NOT NULL,
+        spi_sem7 FLOAT(4,2) NOT NULL,
+        spi_sem8 FLOAT(4,2) NOT NULL,
+        cpi_sem1 FLOAT(4,2) NOT NULL,
+        cpi_sem2 FLOAT(4,2) NOT NULL,
+        cpi_sem3 FLOAT(4,2) NOT NULL,
+        cpi_sem4 FLOAT(4,2) NOT NULL,
+        cpi_sem5 FLOAT(4,2) NOT NULL,
+        cpi_sem6 FLOAT(4,2) NOT NULL,
+        cpi_sem7 FLOAT(4,2) NOT NULL,
+        cpi_sem8 FLOAT(4,2) NOT NULL,
+        positions VARCHAR(100) NOT NULL,
+        backlog_courses VARCHAR(100) NOT NULL,
+        all_backlog_courses VARCHAR(100) NOT NULL,
+        minor_courses VARCHAR(100) NOT NULL
+    )"; 
     //fetch from database and sort by roll number in ascending order
     $sql = "SELECT * FROM students ORDER BY roll ASC";
     $result = $mysqli->query($sql);
@@ -257,7 +284,7 @@ function populate_table($mysqli) {
                                 </div>
                             </div>
 
-
+                            <!--Table to display student details -->
                             <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable">
                                     <thead>
@@ -452,7 +479,7 @@ function populate_table($mysqli) {
                     data: formData,
                     success: function(response) {
                         // Handle success response
-                        alert(response); // You can customize the success message
+                        alert(response);
 
                         // Refresh details modal after successful update (see Step 2 below)
                         fetchStudentDetails($('#rollNumber').text()); 

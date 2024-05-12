@@ -1,5 +1,5 @@
 <?php
-// Check if the email is set in localStorage
+// Check if the email is set in localStorage for authentication, else redirect to login page
 echo "<script>
         var email = localStorage.getItem('email');
         if (!email) {
@@ -89,223 +89,22 @@ echo "<script>
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Courses Actions</h5>
+                                <h5 class="modal-title"> This will be replaced by the course action once add or remove is clicked</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <!-- Content of your popup goes here -->
+                                <!-- This will be filled by popup of add or remove courses -->
                             </div>
                         </div>
                     </div>
                 </div>
-                    <div class="container d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 50px);">
+                    <div class="container d-flex" style="min-height: calc(100vh - 50px);">
                         <div id="contentDiv">
-                            <!-- Content will be dynamically updated here based on selection -->
+                            <!-- Table will be dynamically updated here based on selection -->
                             <p class="display-2" id="dynamicContent">Select Year and Semester to See and Modify Courses</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Ensure full version of jQuery is included -->
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                <!-- Include Bootstrap JavaScript -->
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-                <script>
-                // Define global variables to keep track of selected year and semester
-                    let selectedYear = null;
-                    let selectedSemester = null;
-                    function updateCourses() {
-                        // Make AJAX request to get course data
-                        $.ajax({
-                            url: 'fetch_courses.php',
-                            type: 'POST',
-                            data: {
-                                year: selectedYear,
-                                semester: selectedSemester
-                            },
-                            success: function(response) {
-                                // Update the dynamic content with the fetched courses
-                                $('#dynamicContent').html(response);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(error);
-                                // Handle error
-                            }
-                        });
-                    }
-
-                    function selectYear(year) {
-                        // Update the year dropdown button text
-                        $('#yearDropdown').text('Year ' + year);
-
-                        // Store the selected year
-                        selectedYear = year;
-
-                        // Enable semester dropdown
-                        $('#semesterDropdownButton').removeAttr('disabled');
-
-                        // Clear previous options
-                        $('#semesterDropdown .dropdown-menu').empty();
-
-                        // Populate options for semester
-                        $('#semesterDropdown .dropdown-menu').append(`<a class="dropdown-item" href="#" onclick="selectSemester(${year}, 'odd')">Odd Semester</a>`);
-                        $('#semesterDropdown .dropdown-menu').append(`<a class="dropdown-item" href="#" onclick="selectSemester(${year}, 'even')">Even Semester</a>`);
-
-                        // If semester is already selected, update content
-                        if (selectedSemester) {
-                            selectSemester(selectedYear, selectedSemester);
-                        }
-                    }
-
-                    function selectSemester(year, semester) {
-                        // Update the semester dropdown button text
-                        $('#semesterDropdownButton').text(semester.charAt(0).toUpperCase() + semester.slice(1));
-
-                        // Store the selected semester
-                        selectedSemester = semester;
-
-                        // Update courses
-                        updateCourses();
-                    }
-                    
-                    $(document).ready(function() {
-                        // Attach form submission event listeners when the document is ready
-                        $(document).on('submit', '#addCourseForm', function(event) {
-                            event.preventDefault(); // Prevent default form submission
-
-                            // Serialize form data
-                            var formData = $(this).serialize();
-
-                            // Send AJAX request to add_course.php
-                            $.ajax({
-                                url: 'add_course.php',
-                                type: 'POST',
-                                data: formData,
-                                success: function(response) {
-                                    alert(response);
-                                },
-                                error: function(xhr, status, error) {
-                                    alert('Error adding course. Please try again.');
-                                }
-                            });
-                        });
-
-                        $(document).on('submit', '#removeCourseForm', function(event) {
-                            event.preventDefault(); // Prevent default form submission
-                            // Serialize form data
-                            var formData = $(this).serialize();
-                            // Send AJAX request to remove_course.php
-                            $.ajax({
-                                url: 'remove_course.php',
-                                type: 'POST',
-                                data: formData,
-                                success: function(response) {
-                                    // Check if the course was successfully removed
-                                    if (response.trim() === "Course removed successfully") {
-                                        // Handle success response
-                                        alert(response); // Display success message
-                                    } else {
-                                        // Handle if the course removal was not successful
-                                        alert(response); // Display error message
-                                    }
-                                },
-                                error: function(xhr, status, error) {
-                                    // Handle error response
-                                    console.error(error);
-                                    alert('Error removing course. Please try again.');
-                                }
-                            });
-                        });
-                    });
-
-                    function openAddCoursesPopup() {
-                        // Set modal title
-                        document.querySelector('#popup .modal-title').innerText = "Add Courses";
-                        // Create the form
-                        let formContent = `
-                            <form id="addCourseForm">
-                                <div class="mb-3">
-                                    <label for="courseCode" class="form-label">Course Code</label>
-                                    <input type="text" class="form-control" id="courseCode" name="courseCode" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="courseName" class="form-label">Course Name</label>
-                                    <input type="text" class="form-control" id="courseName" name="courseName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="semester" class="form-label">Semester</label>
-                                    <select class="form-select" id="semester" name="semester" required>
-                                        <option value="">Select Semester</option>
-                                        <option value="Odd">Odd</option>
-                                        <option value="Even">Even</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="deptName" class="form-label">Department Name</label>
-                                    <input type="text" class="form-control" id="deptName" name="deptName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="courseType" class="form-label">Course Type</label>
-                                    <input type="text" class="form-control" id="courseType" name="courseType" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="credit" class="form-label">Credit</label>
-                                    <input type="number" class="form-control" id="credit" name="credit" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="creditStructure" class="form-label">Credit Structure</label>
-                                    <input type="text" class="form-control" id="creditStructure" name="creditStructure" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="year" class="form-label">Year</label>
-                                    <input type="number" class="form-control" id="year" name="year" required>
-                                </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="elective" name="elective">
-                                    <label class="form-check-label" for="elective">Elective</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Add Course</button>
-                            </form>
-                        `;
-                        // Set the form content in the modal body
-                        document.getElementById('popup').querySelector('.modal-body').innerHTML = formContent;
-                        $('#popup').modal('show');
-                    }
-
-                    function openRemoveCoursesPopup() {
-                        // Set modal title
-                        document.querySelector('#popup .modal-title').innerText = "Remove Courses";
-                        // Create the form
-                        let formContent = `
-                            <form id="removeCourseForm">
-                                <div class="mb-3">
-                                    <label for="courseCodeToRemove" class="form-label">Course Code to Remove</label>
-                                    <input type="text" class="form-control" id="courseCodeToRemove" name="courseCodeToRemove" required>
-                                </div>
-                                <button type="submit" class="btn btn-danger">Remove Course</button>
-                            </form>
-                        `;
-                        // Set the form content in the modal body
-                        document.getElementById('popup').querySelector('.modal-body').innerHTML = formContent;
-                        $('#popup').modal('show');
-                    }
-                    // Close button event listener
-                    document.querySelector('#popup .btn-close').addEventListener('click', function() { // Changed '.close' to '.btn-close'
-                        $('#popup').modal('hide');
-                        if(selectSemester && selectedYear) {
-                            updateCourses();
-                        }
-                    });
-
-                    // Bind handler to modal close event
-                    $('#popup').on('hidden.bs.modal', function (e) {
-                        // Call updateCourses function when the modal is closed
-                        if(selectSemester && selectedYear) {
-                            updateCourses();
-                        }
-                    });
-
-                </script>
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
@@ -314,9 +113,206 @@ echo "<script>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        //Define global variables to keep track of selected year and semester
+        let selectedYear = null;
+        let selectedSemester = null;
+        function updateCourses() {
+            // Make AJAX request to get course data
+            $.ajax({
+                url: 'fetch_courses.php',
+                type: 'POST',
+                data: {
+                    year: selectedYear,
+                    semester: selectedSemester
+                },
+                success: function(response) {
+                    // Update the dynamic content with the fetched courses
+                    $('#contentDiv').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    // Handle error
+                }
+            });
+        }
+
+        function selectYear(year) {
+            // Update the year dropdown button text
+            $('#yearDropdown').text('Year ' + year);
+
+            // Store the selected year
+            selectedYear = year;
+
+            // Enable semester dropdown
+            $('#semesterDropdownButton').removeAttr('disabled');
+
+            // Clear previous options
+            $('#semesterDropdown .dropdown-menu').empty();
+
+            // Populate options for semester
+            $('#semesterDropdown .dropdown-menu').append(`<a class="dropdown-item" href="#" onclick="selectSemester(${year}, 'odd')">Odd Semester</a>`);
+            $('#semesterDropdown .dropdown-menu').append(`<a class="dropdown-item" href="#" onclick="selectSemester(${year}, 'even')">Even Semester</a>`);
+
+            // If semester is already selected, update content
+            if (selectedSemester) {
+                selectSemester(selectedYear, selectedSemester);
+            }
+        }
+
+        function selectSemester(year, semester) {
+            // Update the semester dropdown button text
+            $('#semesterDropdownButton').text(semester.charAt(0).toUpperCase() + semester.slice(1));
+
+            // Store the selected semester
+            selectedSemester = semester;
+
+            // Update courses
+            updateCourses();
+        }
+        
+        $(document).ready(function() {
+            // Attach form submission event listeners when the document is ready
+            $(document).on('submit', '#addCourseForm', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Serialize form data
+                var formData = $(this).serialize();
+
+                // Send AJAX request to add_course.php
+                $.ajax({
+                    url: 'add_course.php',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error adding course. Please try again.');
+                    }
+                });
+            });
+
+            $(document).on('submit', '#removeCourseForm', function(event) {
+                event.preventDefault(); // Prevent default form submission
+                // Serialize form data
+                var formData = $(this).serialize();
+                // Send AJAX request to remove_course.php
+                $.ajax({
+                    url: 'remove_course.php',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        // Check if the course was successfully removed
+                        if (response.trim() === "Course removed successfully") {
+                            // Handle success response
+                            alert(response); // Display success message
+                        } else {
+                            // Handle if the course removal was not successful
+                            alert(response); // Display error message
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error response
+                        console.error(error);
+                        alert('Error removing course. Please try again.');
+                    }
+                });
+            });
+        });
+
+        function openAddCoursesPopup() {
+            // Set modal title
+            document.querySelector('#popup .modal-title').innerText = "Add Courses";
+            // Create the form
+            let formContent = `
+                <form id="addCourseForm">
+                    <div class="mb-3">
+                        <label for="courseCode" class="form-label">Course Code</label>
+                        <input type="text" class="form-control" id="courseCode" name="courseCode" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="courseName" class="form-label">Course Name</label>
+                        <input type="text" class="form-control" id="courseName" name="courseName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="semester" class="form-label">Semester</label>
+                        <select class="form-select" id="semester" name="semester" required>
+                            <option value="">Select Semester</option>
+                            <option value="Odd">Odd</option>
+                            <option value="Even">Even</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deptName" class="form-label">Department Name</label>
+                        <input type="text" class="form-control" id="deptName" name="deptName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="courseType" class="form-label">Course Type</label>
+                        <input type="text" class="form-control" id="courseType" name="courseType" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="credit" class="form-label">Credit</label>
+                        <input type="number" class="form-control" id="credit" name="credit" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="creditStructure" class="form-label">Credit Structure</label>
+                        <input type="text" class="form-control" id="creditStructure" name="creditStructure" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="year" class="form-label">Year</label>
+                        <input type="number" class="form-control" id="year" name="year" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="elective" name="elective">
+                        <label class="form-check-label" for="elective">Elective</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Course</button>
+                </form>
+            `;
+            // Set the form content in the modal body
+            document.getElementById('popup').querySelector('.modal-body').innerHTML = formContent;
+            $('#popup').modal('show');
+        }
+
+        function openRemoveCoursesPopup() {
+            // Set modal title
+            document.querySelector('#popup .modal-title').innerText = "Remove Courses";
+            // Create the form
+            let formContent = `
+                <form id="removeCourseForm">
+                    <div class="mb-3">
+                        <label for="courseCodeToRemove" class="form-label">Course Code to Remove</label>
+                        <input type="text" class="form-control" id="courseCodeToRemove" name="courseCodeToRemove" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Remove Course</button>
+                </form>
+            `;
+            // Set the form content in the modal body
+            document.getElementById('popup').querySelector('.modal-body').innerHTML = formContent;
+            $('#popup').modal('show');
+        }
+        // Close button event listener
+        document.querySelector('#popup .btn-close').addEventListener('click', function() { // Changed '.close' to '.btn-close'
+            $('#popup').modal('hide');
+            if(selectSemester && selectedYear) {
+                updateCourses();
+            }
+        });
+
+        // Bind handler to modal close event
+        $('#popup').on('hidden.bs.modal', function (e) {
+            // Call updateCourses function when the modal is closed
+            if(selectSemester && selectedYear) {
+                updateCourses();
+            }
+        });
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/bs-init.js?h=e2b0d57f2c4a9b0d13919304f87f79ae"></script>
     <script src="assets/js/theme.js?h=79f403485707cf2617c5bc5a2d386bb0"></script>
 </body>
-
 </html>

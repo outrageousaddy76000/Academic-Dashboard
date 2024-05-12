@@ -21,6 +21,33 @@ if(isset($_GET['roll'])) {
     // Sanitize input
     $roll = $mysqli->real_escape_string($_GET['roll']);
 
+    //create table if not exist
+    $sql = "CREATE TABLE IF NOT EXISTS students (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        roll VARCHAR(10) NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        phone_number VARCHAR(10) NOT NULL,
+        spi_sem1 FLOAT(4,2) NOT NULL,
+        spi_sem2 FLOAT(4,2) NOT NULL,
+        spi_sem3 FLOAT(4,2) NOT NULL,
+        spi_sem4 FLOAT(4,2) NOT NULL,
+        spi_sem5 FLOAT(4,2) NOT NULL,
+        spi_sem6 FLOAT(4,2) NOT NULL,
+        spi_sem7 FLOAT(4,2) NOT NULL,
+        spi_sem8 FLOAT(4,2) NOT NULL,
+        cpi_sem1 FLOAT(4,2) NOT NULL,
+        cpi_sem2 FLOAT(4,2) NOT NULL,
+        cpi_sem3 FLOAT(4,2) NOT NULL,
+        cpi_sem4 FLOAT(4,2) NOT NULL,
+        cpi_sem5 FLOAT(4,2) NOT NULL,
+        cpi_sem6 FLOAT(4,2) NOT NULL,
+        cpi_sem7 FLOAT(4,2) NOT NULL,
+        cpi_sem8 FLOAT(4,2) NOT NULL,
+        positions VARCHAR(100) NOT NULL,
+        backlog_courses VARCHAR(100) NOT NULL,
+        all_backlog_courses VARCHAR(100) NOT NULL,
+        minor_courses VARCHAR(100) NOT NULL
+    )";
     // Prepare SQL statement with prepared statement
     $sql = "SELECT roll, name, phone_number, spi_sem1, spi_sem2, spi_sem3, spi_sem4, spi_sem5, spi_sem6, spi_sem7, spi_sem8, cpi_sem1, cpi_sem2, cpi_sem3, cpi_sem4, cpi_sem5, cpi_sem6, cpi_sem7, cpi_sem8, positions,backlog_courses, all_backlog_courses, minor_courses FROM students WHERE roll = ?";
 

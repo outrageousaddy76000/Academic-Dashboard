@@ -18,6 +18,19 @@ if ($mysqli->connect_errno) {
 
 // Retrieve course code to remove from form data
 $courseCodeToRemove = strtoupper($_POST['courseCodeToRemove']);
+//create table if not exists
+$sql = "CREATE TABLE IF NOT EXISTS courses (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    course_code VARCHAR(10) NOT NULL,
+    course_name VARCHAR(100) NOT NULL,
+    semester VARCHAR(10) NOT NULL,
+    dept_name VARCHAR(100) NOT NULL,
+    course_type VARCHAR(100) NOT NULL,
+    credit INT(2) NOT NULL,
+    credit_structure VARCHAR(100) NOT NULL,
+    year INT(4) NOT NULL,
+    elective BOOLEAN NOT NULL
+)";
 
 // Check if the course code exists in the database
 $sql_check = "SELECT * FROM courses WHERE course_code = '$courseCodeToRemove'";

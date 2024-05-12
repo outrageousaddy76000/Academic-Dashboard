@@ -20,6 +20,34 @@ if ($mysqli->connect_errno) {
 if (isset($_POST['rollToRemove'])) {
     $rollToRemove = $_POST['rollToRemove'];
 
+    //create table if not exist
+    $sql = "CREATE TABLE IF NOT EXISTS students (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        roll VARCHAR(10) NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        phone_number VARCHAR(10) NOT NULL,
+        spi_sem1 FLOAT(4,2) NOT NULL,
+        spi_sem2 FLOAT(4,2) NOT NULL,
+        spi_sem3 FLOAT(4,2) NOT NULL,
+        spi_sem4 FLOAT(4,2) NOT NULL,
+        spi_sem5 FLOAT(4,2) NOT NULL,
+        spi_sem6 FLOAT(4,2) NOT NULL,
+        spi_sem7 FLOAT(4,2) NOT NULL,
+        spi_sem8 FLOAT(4,2) NOT NULL,
+        cpi_sem1 FLOAT(4,2) NOT NULL,
+        cpi_sem2 FLOAT(4,2) NOT NULL,
+        cpi_sem3 FLOAT(4,2) NOT NULL,
+        cpi_sem4 FLOAT(4,2) NOT NULL,
+        cpi_sem5 FLOAT(4,2) NOT NULL,
+        cpi_sem6 FLOAT(4,2) NOT NULL,
+        cpi_sem7 FLOAT(4,2) NOT NULL,
+        cpi_sem8 FLOAT(4,2) NOT NULL,
+        positions VARCHAR(100) NOT NULL,
+        backlog_courses VARCHAR(100) NOT NULL,
+        all_backlog_courses VARCHAR(100) NOT NULL,
+        minor_courses VARCHAR(100) NOT NULL
+    )";
+
     // Prepare a delete statement
     $sql = "DELETE FROM students WHERE roll = ?";
 

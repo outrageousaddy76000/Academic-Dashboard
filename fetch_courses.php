@@ -23,6 +23,19 @@ if(isset($_POST['year'], $_POST['semester'])) {
 
     // Query to fetch courses based on year and semester
     // Example query, replace with your actual query to fetch courses
+    //if table does not exist create table
+    $sql = "CREATE TABLE IF NOT EXISTS courses (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        course_code VARCHAR(10) NOT NULL,
+        course_name VARCHAR(100) NOT NULL,
+        semester VARCHAR(10) NOT NULL,
+        dept_name VARCHAR(100) NOT NULL,
+        course_type VARCHAR(100) NOT NULL,
+        credit INT(2) NOT NULL,
+        credit_structure VARCHAR(100) NOT NULL,
+        year INT(4) NOT NULL,
+        elective BOOLEAN NOT NULL
+    )";
     $query = "SELECT * FROM courses WHERE year = $year AND semester = '$semester'";
     $result = $mysqli->query($query);
     // Check if query executed successfully

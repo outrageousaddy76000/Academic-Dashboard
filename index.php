@@ -8,7 +8,6 @@ echo "<script>
         }
       </script>";
 
-// Database connection parameters
 // Include config file
 include 'config.php';
 
@@ -40,6 +39,39 @@ if ($current_month < $year_start_month) {
 }
 $roll = $roll % 100;
 $improvement_threshold=0.1;
+//create table if not exist
+$sql = "CREATE TABLE IF NOT EXISTS students (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    roll VARCHAR(10) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(10) NOT NULL,
+    spi_sem1 FLOAT(4,2) NOT NULL,
+    spi_sem2 FLOAT(4,2) NOT NULL,
+    spi_sem3 FLOAT(4,2) NOT NULL,
+    spi_sem4 FLOAT(4,2) NOT NULL,
+    spi_sem5 FLOAT(4,2) NOT NULL,
+    spi_sem6 FLOAT(4,2) NOT NULL,
+    spi_sem7 FLOAT(4,2) NOT NULL,
+    spi_sem8 FLOAT(4,2) NOT NULL,
+    cpi_sem1 FLOAT(4,2) NOT NULL,
+    cpi_sem2 FLOAT(4,2) NOT NULL,
+    cpi_sem3 FLOAT(4,2) NOT NULL,
+    cpi_sem4 FLOAT(4,2) NOT NULL,
+    cpi_sem5 FLOAT(4,2) NOT NULL,
+    cpi_sem6 FLOAT(4,2) NOT NULL,
+    cpi_sem7 FLOAT(4,2) NOT NULL,
+    cpi_sem8 FLOAT(4,2) NOT NULL,
+    positions VARCHAR(100) NOT NULL,
+    backlog_courses VARCHAR(100) NOT NULL,
+    all_backlog_courses VARCHAR(100) NOT NULL,
+    minor_courses VARCHAR(100) NOT NULL
+)";
+// Execute SQL query
+if ($mysqli->query($sql) === TRUE) {
+    echo "Table created successfully";
+} else {
+    echo "Error creating table: " . $mysqli->error;
+}
 //go through all students
 $sql = "SELECT * FROM students";
 $result = $mysqli->query($sql);
@@ -102,7 +134,7 @@ while ($row = $result->fetch_assoc()) {
         $good[$year]++;
     } else if ($cpi >= 7) {
         $average[$year]++;
-    } else if ($cpi < 7) {
+    } else{
         $need_improvement[$year]++;
     }
 }
@@ -165,7 +197,7 @@ while ($row = $result->fetch_assoc()) {
                                     <div class="card text-white bg-primary shadow">
                                         <div class="card-body">
                                             <p class="m-0">Excellent (CPI >= 9)</p>
-                                            <p class="text-white-50 small m-0">1st Year: <?php echo $excellent[0]?> , 2nd Year: <?php echo $excellent[1]?> , 3rd Year: <?php echo $excellent[3]?>, 4th Year:  <?php echo $excellent[3]?></p>
+                                            <p class="text-white-50 small m-0">1st Year: <?php echo $excellent[0]?> , 2nd Year: <?php echo $excellent[1]?> , 3rd Year: <?php echo $excellent[2]?>, 4th Year:  <?php echo $excellent[3]?></p>
                                         </div>
                                     </div>
                                 </div>
