@@ -160,7 +160,6 @@ if(isset($_POST['year'], $_POST['semester'])) {
      else {
         echo "<p>Error fetching courses.</p>";
     }
-
     // Close database connection
     $mysqli->close();
 } else {
