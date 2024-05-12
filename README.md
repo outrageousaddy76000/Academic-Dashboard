@@ -1,33 +1,50 @@
-Academic Dashboard for RGIPT
+# Academic Dashboard for RGIPT
 
-Welcome to the Academic Dashboard for Rajiv Gandhi Institute of Petroleum Technology (RGIPT). This dashboard provides a comprehensive view of academic details for students, courses, and more. Below is a guide to set up and utilize the dashboard effectively.
+Welcome to the Academic Dashboard for Rajiv Gandhi Institute of Petroleum Technology (RGIPT). This dashboard provides comprehensive academic information for students and faculty members.
 
-Setup
-Configurations:
+## Getting Started
 
-Create a config.php file with the following structure:
-php
-Copy code
-<?php
-// Database configuration
-$dbConfig = [
-    'host' => '',
-    'username' => '',
-    'password' => '',
-    'database' => ''
-];
-$mailConfig = [
-    'host' => 'smtp.gmail.com',
-    'username' => '',
-    'password' => ''
-];
-?>
-Database Setup:
+### Prerequisites
 
-Create a MySQL database and execute the following SQL queries to create necessary tables:
-sql
-Copy code
--- Courses Table
+1. PHP >= 7.0
+2. MySQL >= 5.6
+3. Web server (e.g., Apache, Nginx)
+
+### Installation
+
+1. Clone this repository to your local machine:
+
+    ```bash
+    git clone https://github.com/your-repo-url.git
+    ```
+
+2. Create a `config.php` file in the root directory with the following structure:
+
+    ```php
+    <?php
+    // Database configuration
+    $dbConfig = [
+        'host' => '',
+        'username' => '',
+        'password' => '',
+        'database' => ''
+    ];
+
+    $mailConfig = [
+        'host' => 'smtp.gmail.com',
+        'username' => '',
+        'password' => ''
+    ];
+    ?>
+    ```
+
+3. Create a MySQL database. The necessary tables will be auto-created upon running the application.
+
+### Database Tables
+
+#### Courses
+
+```sql
 CREATE TABLE courses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     course_code VARCHAR(20),
@@ -41,14 +58,20 @@ CREATE TABLE courses (
     elective BOOLEAN
 );
 
--- Users Table
+
+#### Users
+
+```sql
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255),
     password VARCHAR(255)
 );
+```
 
--- Students Table
+#### Students
+
+```sql
 CREATE TABLE students (
     roll VARCHAR(20) PRIMARY KEY,
     name VARCHAR(100),
@@ -74,20 +97,12 @@ CREATE TABLE students (
     all_backlog_courses TEXT,
     minor_courses TEXT
 );
-Usage
-Login:
+```
 
-Access the dashboard by logging in with your credentials.
-Student Details:
+### Usage
 
-View academic performance, SPI, CPI, positions, and more for each semester.
-Check for backlog courses, minor courses, and overall academic progress.
-Course Details:
+Once the installation is complete, users with access to the academic dashboard can log in using their email and password.
 
-Explore available courses categorized by department, semester, and type.
-Check course codes, names, credits, and other relevant information.
-Administration:
+### License
 
-Admins can manage user access and course details.
-Add, edit, or delete users and courses as necessary.
-
+This dashboard is free to use for academic purposes.
