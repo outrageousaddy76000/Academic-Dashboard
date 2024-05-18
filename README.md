@@ -31,7 +31,7 @@ Do look at the presentation to get a better idea about the project.
         'password' => '',
         'database' => ''
     ];
-
+    //Google Mail Server Configuration - Check PHPMailer for more details
     $mailConfig = [
         'host' => 'smtp.gmail.com',
         'username' => '',
